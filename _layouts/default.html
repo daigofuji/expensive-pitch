@@ -12,6 +12,8 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700,800|Raleway:400,200,700" rel="stylesheet" type="text/css">
     <!-- Fount Awesome -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/t/zf/dt-1.10.11,fh-3.1.1,r-2.0.2/datatables.min.css"/>
+ 
 
     <link rel="stylesheet" href="css/app.css">
 
@@ -40,27 +42,27 @@
       <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
 
         <!-- off-canvas title bar for 'small' screen -->
-        <div class="title-bar" data-responsive-toggle="widemenu" data-hide-for="medium">
+<!--         <div class="title-bar" data-responsive-toggle="widemenu" data-hide-for="medium">
           <div class="title-bar-left">
-            <span class="title-bar-title"><a href="{{ site.url }}">{{ site.brand }}</a></span>
+            <span class="title-bar-title"><a href="{{ site.url }}">2015 MLB Salary/Pitch</a></span>
           </div>
           <div class="title-bar-right">
             <button class="menu-icon" type="button" data-open="offCanvasRight"></button>
           </div>
-        </div>
+        </div> -->
 
         <!-- off-canvas right menu -->
-        <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right">
+<!--         <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-position="right">
           <ul class="vertical dropdown menu" data-dropdown-menu>
             {% include nav.html %}
           </ul>
-        </div>
+        </div> -->
 
         <!-- "wider" top-bar menu for 'medium' and up -->
         <div id="widemenu" class="top-bar">
           <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
-              <li class="menu-text"><a href="{{ site.url }}">{{ site.brand }}</a></li>
+              <li class="menu-text"><a href="{{ site.url }}">2015 MLB Salary/Pitch</a></li>
             </ul>
           </div>
           <div class="top-bar-right">
@@ -100,6 +102,7 @@
     <script>window.jQuery || document.write('<script src="bower_components/jquery/dist/jquery.js"><\/script>')</script>
     <script src="bower_components/what-input/what-input.js"></script>
     <script src="bower_components/foundation-sites/dist/foundation.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/t/zf/dt-1.10.11,fh-3.1.1,r-2.0.2/datatables.min.js"></script>
     <script src="js/app.js"></script>
 
     <!-- Google Analytics CHANGE THIS TO YOUR UA CODE-->
