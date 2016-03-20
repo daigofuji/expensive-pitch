@@ -10,7 +10,31 @@ $(document).foundation().ready(function() {
             { "data": "np" },
             { "data": "dollar_per_pitch" }
         ],
-        paging: false
+        paging: false,
+        initComplete: function () {
+
+            this.api().columns().every( function () {
+                var column = this;
+                if (column.selector.cols == 1 || column.selector.cols == 2) {
+                    
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo( $(column.header()) )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+     
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                        } );
+     
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                }
+            } );
+        }
     }).order( [ 5, 'desc' ] )
     .draw();
 
