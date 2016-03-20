@@ -1,5 +1,4 @@
 $(document).foundation().ready(function() {
-    console.log( "ready!" );
 
     $('#hackbaseball').DataTable( {
 	    "ajax": '/js/salary.json',
