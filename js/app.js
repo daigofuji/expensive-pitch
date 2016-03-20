@@ -1,7 +1,7 @@
 $(document).foundation().ready(function() {
 
     $('#hackbaseball').DataTable( {
-	    "ajax": '/js/salary.json',
+	    "ajax": 'js/salary.json',
 	    "columns": [
             { "data": "NAME" },
             { "data": "TEAM" },
@@ -15,7 +15,7 @@ $(document).foundation().ready(function() {
     .draw();
 
     $('#did-not-pitch').DataTable( {
-	    "ajax": '/js/did-not-pitch.json',
+	    "ajax": 'js/did-not-pitch.json',
 	    "columns": [
             { "data": "NAME" },
             { "data": "TEAM" },
