@@ -13,16 +13,28 @@ keywords: github pages, Jekyll, foundation 6, datatables
     <p>The Boston Red Sox signed David Price to <a href="https://www.bostonglobe.com/sports/2015/12/01/red-sox-agree-deal-with-pitcher-david-price/Tsv1SM9yjAU1TncmXJpFUN/story.html">the record contract</a> of average $31 million a year this off-season. With his 3,388 pitches thrown by him last year, that comes out to be over $9,000 a pitch. Yikes, right? That got me thinking, who was the most economical and who's pitch was the most expensive? <a href="http://www.baseballhackday.com/boston/">2016 Basebal Hack Day</a> project. See <a href="http://2016baseballhackday.devpost.com/submissions">other submissions here</a>!</p>
 
     <div class="row">
-      <div class="small-12 column" id="d3force">
+      <div class="small-12 column responsive-wrap">
+        <div id="d3force"></div>
 
+        <div id="tooltip" class="tooltip-wrapper" style="">
+          <h5 class="" js-target="title">Click on circle for info</h5>
+          <p class="perpitch"></p>
+          <p class="desc"></p>
+        </div>
+
+        <div class="howto hide-for-small-only">
+          <p><strong>How to use this bubble graphic:</strong> Circle represents average cost of pitch a player pitched in 2015. Colored by team. Click or focus on a circle, and information will appear. Use "Tab" to go next.</p>
+        </div>
 
       </div>
+
     </div>
-    <p>Sources: USA Today's Salary database and MLB.com's stats for number of pitches.</p>
+    <p>Sources: USA Today's Salary database and MLB.com's stats for number of pitches. Note: If the salary was not in USA Today DB, it is not included here. There were 736 players with at least 1 pitch in 2015, however, USA today has 443 pitchers. Also not listed in 409 are ones <a href="#did-not-pitch">who had 0 pitch count</a>, there were 34 such players.</p>
 
 
     <div class="row">
       <div class="medium-12 large-11 small-centered column">
+      <h4 id="sortable-table">Sotable table of the data: </h4>
 
         <table id="hackbaseball">
           <thead>
@@ -44,6 +56,7 @@ keywords: github pages, Jekyll, foundation 6, datatables
     <hr>
 
     <h4>Players who were under contract but did not pitch: </h4>
+    <p>Since there was 0 pitches, those players' pitches averaged $infinity.</p>
     <div class="row">
       <div class="small-10 medium-8 large-6 small-centered column">
         

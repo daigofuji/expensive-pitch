@@ -45,7 +45,7 @@ $(document).foundation().ready(function() {
     var nodes = bubble.nodes(processData(salaryData))
              .filter(function(d) { return !d.children; }); // filter out the outer bubble
     
-    console.log(nodes);
+    //console.log(nodes);
     
     var vis = svg.selectAll('circle')
             .data(nodes);
@@ -56,26 +56,29 @@ $(document).foundation().ready(function() {
       .attr('aria-haspopup', 'true')
       .attr('data-disable-hover', 'false')
       .attr('tabindex', function(d) { return parseInt(d.i, 10) + 1; })
-      .attr('class', function(d) { return d.className + ' has-tip'; })
+      .attr('class', function(d) { return d.className; })
       .attr('data-tooltip', '')
-      .attr('title', function(d) { return d.salaryDetail; });
+      .attr('data-title', function(d) { return d.displayName; })
+      .attr('data-per-pitch', function(d) { return d.perPitch; })
+      .attr('data-desc', function(d) { return d.salaryDetail; })
+      .attr('data-team', function(d) { return d.team; });
   
 
       // Foundation tool tip
       //<span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle.">scarabaeus</span>
+      // Does not work. 
+      // http://codepen.io/AmeliaBR/pen/kFDvH
 
-    // var circles =  svgContainer.selectAll("circle")
-    // .data(salaryData)
-    // .enter()
-    // .append("circle")
-    //   .attr("class", function(d) { return d.TEAM; })
-    //   .attr("data-id", function(d) { return d.player_id; })
-    //   .attr("data-name", function(d) { return d.NAME; })
-    //   .attr("data-salary", function(d) { return d.SALARY; })
-    //   .attr("data-dpp", function(d) { return d.dollar_per_pitch; })
-    //   .attr("cx", function(d) { return d.x; })
-    //   .attr("cy", function(d) { return d.y; })
-    //   .attr("r", function(d) { return d.radius; });
+    $('[data-tooltip]').on("click hover focus", function(ev) { 
+      var $el = $(ev.currentTarget);
+
+      $('#tooltip').css('top', $el.top);
+      $('#tooltip [js-target="title"]').removeClass().addClass($el.attr("class")).text($el.attr("data-title"));
+      $('#tooltip .perpitch').text($el.attr("data-per-pitch"));
+      $('#tooltip .desc').text($el.attr("data-desc"));
+
+    });
+
 
    
     
@@ -86,16 +89,20 @@ $(document).foundation().ready(function() {
       for(var i in data) {
         //console.log(data[i]);
 
-        var salaryDetail = data[i].NAME + ", " + data[i].TEAM + ". Dollars Per Pitch: " + data[i].dollar_per_pitch + ". Pitch count: " + data[i].np +". Made " + data[i].SALARY + " in 2015, part of " + data[i].TOTAL_VALUE + " " + data[i].YEARS + " year deal, which ranked #" + data[i].RANK + " among MLB pitchers.";
+        var displayName = data[i].NAME + ", " + data[i].TEAM;
+        var perPitch = data[i].dollar_per_pitch + " a pitch";
+        var salaryDetail = "Pitch count: " + data[i].np +". Made " + data[i].SALARY + " in 2015, part of " + data[i].TOTAL_VALUE + " " + data[i].YEARS + " year deal, which ranked #" + data[i].RANK + " among MLB pitchers.";
 
         newDataSet.push({
           i:i,
-          name: data[i].NAME, 
+          name: data[i].NAME,
+          team: data[i].TEAM,
+          displayName: displayName,
           player_id: data[i].player_id,
           className: data[i].TEAM,
           size: data[i].size,
           np: data[i].np,
-          dollar_per_pitch: data[i].dollar_per_pitch,
+          perPitch: perPitch,
           salary: data[i].SALARY,
           salaryDetail: salaryDetail
         });
@@ -109,14 +116,6 @@ $(document).foundation().ready(function() {
 
   // make it responsive 
   // http://stackoverflow.com/questions/9400615/whats-the-best-way-to-make-a-d3-js-visualisation-layout-responsive
-  var aspect = 1,
-    chart = d3.select('#d3force');
-  d3.select(window)
-    .on("resize", function() {
-      var targetWidth = chart.node().getBoundingClientRect().width;
-      chart.attr("width", targetWidth);
-      chart.attr("height", targetWidth / aspect);
-    });
 
 
 
