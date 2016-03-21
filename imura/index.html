@@ -1,0 +1,130 @@
+<head>
+<style>
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif; 
+  margin: 1em;
+  background: #293950;
+  color: #ecf0f0;
+}
+section {
+  margin: 0 auto;
+}
+h1 {
+  font-weight: normal;
+  font-size: 2.4em;
+  margin-bottom: 0;
+}
+a {
+  color: gold;
+}
+/* 
+ISO Country code by regions: http://www.geohive.com/earth/gen_codes.aspx
+*/
+
+/* Northern America */
+.bm, .ca, .gl, .pm, .us,
+.noram {fill: #DF4949; background: #DF4949;}
+
+/* Latin America and the Caribbean */
+.ai, .ag, .aw, .bs, .bb, .bq, .vg, .ky, .cu, .cw, .dm, .do, .gp, .ht, .jm, .mq, .ms, .pr, .bl, .kn, .lc, .mf, .vc, .sx, .tt, .vi,
+.bz, .crr, .sv, .gt, .hn, .mx, .ni, .pa,
+.ar, .bo, .br, .cl, .co, .ec, .fk, .gf, .gy, .py, .pe, .sr, .uy, .ve,  
+.latam {fill: #E27A3F; background: #E27A3F;}
+
+/* Europe */
+.by, .bg, .cz, .hu, .md, .pl, .ro, .ru, .sk, .ua, 
+.ax, .dk, .ee, .fo, .fi, .gg, .is, .ie, .je, .lv, .lt, .im, .no, .sj, .se, .gb,
+.al, .ad, .ba, .hr, .gi, .gr, .va, .it, .mk, .mt, .me, .pt, .sm, .rs, .si, .es,
+.at, .be, .fr, .de, .li, .lu, .mc, .nl, .ch,
+.eu { fill: #EFC94C; background: #EFC94C;}
+
+/* Asia */
+.kz, .kg, .tj, .tm, .uz,
+.cn, .hk, .mo, .jp, .kp, .kr, .mn, .tw,
+.af, .bd, .bt, .in, .ir, .mv, .np, .pk, .lk,
+.bn, .kh, .id, .la, .my, .mm, .ph, .sg, .th, .tl, .vn,
+.am, .az, .bh, .cy, .ge, .iq, .il, .jo, .kw, .lb, .ps, .om, .qa, .sa, .sy, .tr, .ae, .ye, 
+.asia { fill: #9B59B6; background:  #9B59B6;}
+
+/* Oceania */
+.au, .cx, .cc, .nz, .nf,
+.fj, .nc, .pg, .sb, .vu,
+.gu, .ki, .mh, .fm, .nr, .mp, .pw,
+.as, .ck, .pf, .nu, .pn, .ws, .tk, .to, .tv, .wf,  
+.oceania {fill: #3498db; background: #3498db;}
+
+/* Africa */
+.bi, .km, .dj, .er, .et, .ke, .mg, .mw, .mu, .yt, .mz, .re, .rw, .sc, .so, .tz, .ug, .zm, .zw,
+.ao, .cm, .cf, .td, .cg, .cd, .gq, .ga, .st,
+.dz, .eg, .ly, .ma, .ss, .sd, .tn, .eh,
+.bw, .ls, .na,  .za, .sz,
+.bj, .bf, .cv, .gm, .gh, .gn, .gw, .lr, .ml, .mr, .ne, .ng, .sh, .sn, .sl, .tg, 
+.africa {fill: #F495A3; background: #F495A3;}
+
+/* Unclassified */
+.aq, .bv, .io, .tf, .hm, .gs, .um, 
+.a1, .a2, .o1, 
+.other { fill: #45B29D; background: #45B29D;}</style>
+</head>
+<body>
+<h1>D3 Bubble Chart (with Static Data)</h1>
+
+<section id="graph"></section>
+
+<p>Also, see the <a href="http://codepen.io/girliemac/pen/qFGtw">animated version of this chart</a>, using realtime data!</p>
+<p>Full source code is distributed under MIT license on <a href="https://github.com/pubnub/d3-bubble">Github</a>.</p>
+
+<p>Author: <a href="https://twitter.com/girlie_mac">@girlie_mac</a></p> 
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<script>(function() {
+
+  // Fake JSON data
+  var json = {"countries_msg_vol": {
+    "CA": 170, "US": 393, "BB": 12, "CU": 9, "BR": 89, "MX": 192, "PY": 32, "UY": 9, "VE": 25, "BG": 42, "CZ": 12, "HU": 7, "RU": 184, "FI": 42, "GB": 162, "IT": 87, "ES": 65, "FR": 42, "DE": 102, "NL": 12, "CN": 92, "JP": 65, "KR": 87, "TW": 9, "IN": 98, "SG": 32, "ID": 4, "MY": 7, "VN": 8, "AU": 129, "NZ": 65, "GU": 11, "EG": 18, "LY": 4, "ZA": 76, "A1": 2, "Other": 254 
+  }};
+  
+	// D3 Bubble Chart 
+
+	var diameter = 600;
+
+	var svg = d3.select('#graph').append('svg')
+					.attr('width', diameter)
+					.attr('height', diameter);
+
+	var bubble = d3.layout.pack()
+				.size([diameter, diameter])
+				.value(function(d) {return d.size;})
+         // .sort(function(a, b) {
+				// 	return -(a.value - b.value)
+				// }) 
+				.padding(3);
+
+
+  // generate data with calculated layout values
+  var nodes = bubble.nodes(processData(json))
+						.filter(function(d) { return !d.children; }); // filter out the outer bubble
+ 
+ console.log(nodes);
+  var vis = svg.selectAll('circle')
+					.data(nodes);
+  
+  vis.enter().append('circle')
+			.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
+			.attr('r', function(d) { return d.r; })
+			.attr('class', function(d) { return d.className; });
+  
+  function processData(data) {
+    var obj = data.countries_msg_vol;
+
+    var newDataSet = [];
+
+    for(var prop in obj) {
+      newDataSet.push({name: prop, className: prop.toLowerCase(), size: obj[prop]});
+    }
+    return {children: newDataSet};
+  }
+  
+})();</script>
+</body>
